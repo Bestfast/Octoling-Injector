@@ -8,8 +8,9 @@
 #define PRIVATE_BUFFER_SIZE  1024
 #endif
 
-std::streamsize const  buffer_size = PRIVATE_BUFFER_SIZE;
 
+std::streamsize const  buffer_size = PRIVATE_BUFFER_SIZE;
+typedef unsigned char byte;
 
 using namespace std;
 
@@ -73,12 +74,12 @@ int main(int argc, char **argv)
             printf("Modifying the save game... ");
             FILE * pFile;
             pFile = fopen("save.dat", "rb+");
-            unsigned int octoling[] = {0x4};
+            byte octoling = 0x4;
             fseek (pFile , 0x10 , SEEK_SET);
-            fwrite (octoling , sizeof(char), sizeof(octoling), pFile);
-            unsigned int hair[] = {0x64};
+            fwrite (&octoling , sizeof(char), sizeof(octoling), pFile);
+            byte hair = 0x64;
             fseek (pFile , 0x12 , SEEK_SET);
-            fwrite (hair , sizeof(char), sizeof(hair), pFile);
+            fwrite (&hair , sizeof(char), sizeof(hair), pFile);
             fclose (pFile);
             boost::crc_32_type  result;
 
